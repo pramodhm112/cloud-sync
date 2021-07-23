@@ -89,7 +89,9 @@ end
 def init_github_clients(dotcom_token, enterprise_token, enterprise_url)
     clients = {}
     clients[:githubcom] = Octokit::Client.new(:access_token => dotcom_token, :auto_paginate => true)
-
+    
+    Octokit.connection_options[:ssl] = {:ca_file => './github-cert.cer', :verify => false}
+    
     Octokit.configure do |c|
       c.api_endpoint = "#{enterprise_url}/api/v3"
       c.web_endpoint = "#{enterprise_url}"
